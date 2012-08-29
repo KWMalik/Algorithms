@@ -14,13 +14,14 @@ public class Subset
         while (!StdIn.isEmpty()) 
         {
             String item = StdIn.readString();
-                q.enqueue(item);
+            q.enqueue(item);
         }
         while (k > 0)
         {
             StdOut.println(q.dequeue());
             k--;
         }
+        return;
     }
     
 }

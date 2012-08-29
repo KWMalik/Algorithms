@@ -4,6 +4,11 @@
  * in the data structure.
  * 28-08-2012. 
 */
+/*
+ *  Failed on 156th operation: returned null on call to dequeue
+  *  1000 random calls (p1 = 0.9, p2 = 0.1)
+  Failed on 138th operation: returned null on call to dequeue
+ */
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
@@ -12,8 +17,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     
     private Random rand = new Random();
     private Item[] q;
-    private static int N = 0;
-    private int first = 0; 
+    private int N = 0;
+    private int first = 0;
     private int last = 0;
    // construct an empty randomized queue
    public RandomizedQueue()
@@ -59,14 +64,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
            throw new NoSuchElementException("Queue underflow");
        Random randomGenerator = new Random();
        int randomIndex = rand.nextInt(N);
-       //System.out.println(randomIndex);
-       //System.out.println(N);
        Item item = q[randomIndex];
-       if (randomIndex != N)
+       if (randomIndex != N-1)
+       {
            q[randomIndex] = q[N-1];
-       q[N-1] = null;
+           q[N-1] = null;
+       }
+       else
+           q[randomIndex] = null;
        N--;
-       --last;
+       last--;
        if (N > 0 && N == q.length/4) 
            resize(q.length/2);
       return item;
@@ -90,7 +97,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         private int i = 0;
         public boolean hasNext()  
         { 
-            return i < N;                               
+            return i < N;
         }
         public void remove()      
         { 
